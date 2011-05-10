@@ -1,6 +1,6 @@
 // ==========================================================================
 // Project:   BBA.TableHeaderView Unit Test
-// Copyright: ©2011 My Company, Inc.
+// Copyright: ©2011 Blueberry.cz Apps s.r.o.
 // ==========================================================================
 /*globals BBA module test ok equals same stop start */
 

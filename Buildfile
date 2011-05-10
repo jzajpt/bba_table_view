@@ -1,6 +1,6 @@
 # ===========================================================================
-# Project:   BbaTableView
-# Copyright: ©2011 My Company, Inc.
+# Project:   Bba.TableView
+# Copyright: ©2011 Blueberry.cz Apps s.r.o.
 # ===========================================================================
 
 # This is your Buildfile, which sets build settings for your project.
