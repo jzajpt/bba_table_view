@@ -1,7 +1,9 @@
 # ===========================================================================
-# Project:   Bba.TableView
+# Project:   BBA.TableView
 # Copyright: ©2011 Blueberry.cz Apps s.r.o.
 # ===========================================================================
 
-config :all, :required => :sproutcore
+config :table, :required => :sproutcore
+
+config :bba_table_view, :required => :table
 
