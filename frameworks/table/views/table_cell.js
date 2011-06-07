@@ -40,6 +40,16 @@ BBA.TableCellView = SC.View.extend(
   // SUBCLASS METHODS
   //
 
+  init: function() {
+    sc_super();
+    this._setupValueObserver();
+  },
+
+  destroy: function() {
+    this._removeValueObserver();
+    sc_super();
+  },
+
   /**
     Setups cell content.
   */
@@ -52,7 +62,25 @@ BBA.TableCellView = SC.View.extend(
   // PRIVATE METHODS
   //
 
-  /**
+  /** @private */
+  _setupValueObserver: function() {
+    var content = this.getPath('row.content'),
+        key = this.getPath('column.key');
+    if (content && key) {
+      content.addObserver(key, this, '_valueDidChange');
+      this._observedContent = content;
+      this._observedKey = key;
+    }
+  },
+
+  /** @private */
+  _removeValueObserver: function() {
+    if (this._observedContent && this._observedKey) {
+      this._observedContent.removeObserver(this._observedKey, this, '_valueDidChange');
+    }
+  },
+
+  /** @private
     Creates a cell content view (a class from column's exampleView).
 
     @returns {SC.View}
@@ -64,12 +92,23 @@ BBA.TableCellView = SC.View.extend(
     return this.createChildView(exampleView, {
       textAlign: column.get('align'),
       isEditable: column.get('isEditable'),
-      value: this.get('value'),
+      valueBinding: SC.Binding.from('value', this),
       inlineEditorDidEndEditing: function(view, value) {
         sc_super();
         row._setValueForColumn(column, value);
       }
     });
+  },
+
+  /** @private
+    Observer handler that gets called when value of this cell
+    changes.
+  */
+  _valueDidChange: function(object, key) {
+    var childViews = this.get('childViews');
+    if (childViews && childViews[0]) {
+      this.set('value', object.get(key));
+    }
   }
 
 });
