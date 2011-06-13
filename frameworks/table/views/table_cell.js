@@ -59,6 +59,16 @@ BBA.TableCellView = SC.View.extend(
   },
 
   // ..........................................................
+  // PROPERTIES
+  //
+
+  isEditable: function() {
+    var columnIsEditable = this.getPath('column.isEditable'),
+        contentIsEditable = this.getPath('row.content.isEditable');
+    return columnIsEditable && contentIsEditable;
+  }.property('column', 'row').cacheable(),
+
+  // ..........................................................
   // PRIVATE METHODS
   //
 
@@ -91,7 +101,7 @@ BBA.TableCellView = SC.View.extend(
         exampleView = column.get('exampleView');
     return this.createChildView(exampleView, {
       textAlign: column.get('align'),
-      isEditable: column.get('isEditable'),
+      isEditableBinding: '.parentView.isEditable',
       valueBinding: SC.Binding.from('value', this),
       inlineEditorDidEndEditing: function(view, value) {
         sc_super();
