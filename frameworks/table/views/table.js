@@ -31,7 +31,7 @@ BBA.TableView = SC.ListView.extend(
     @type BBA.TableHeaderView
   */
   headerView: BBA.TableHeaderView.design({
-    layout: { top: 0, right: 0, left: 0, height: 20 }
+    layout: { top: 0, right: 0, left: 0, height: 20, borderBottom: 1 }
   }),
 
   /**

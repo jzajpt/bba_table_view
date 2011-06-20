@@ -89,13 +89,13 @@ BBA.TableHeaderCellView = SC.View.extend(
   // SUBCLASS METHODS
   //
 
-  prepareContext: function(context) {
-    sc_super();
+  render: function(context) {
     var sortKey = this.getPath('column.sortKey') || this.getPath('column.key'),
         currentSortKey = this.getPath('tableView.sortKey');
     if (currentSortKey && currentSortKey[0] === sortKey) this.set('isSelected', YES);
     context.setClass('selected', this.get('isSelected'))
            .addClass(this.getPath('column.sortDirection'));
+    sc_super();
   },
 
   // ..........................................................
