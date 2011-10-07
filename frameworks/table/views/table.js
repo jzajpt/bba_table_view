@@ -194,11 +194,12 @@ BBA.TableView = SC.ListView.extend(
     @type Number
   */
   staticColumnsWidth: function() {
-    var widths = this.get('staticColumns').getEach('width'),
-        width = 0;
-    widths.forEach(function(size){
-      width += size;
-    });
+    var widths = this.get('staticColumns').getEach('width');
+    var width = 0;
+    var len = widths.get('length'), idx;
+    for (idx=0; idx<len; ++idx) {
+      width += widths[idx];
+    }
     return width;
   }.property('columns').cacheable(),
 
