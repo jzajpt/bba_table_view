@@ -233,11 +233,12 @@ BBA.TableView = SC.ListView.extend(
   _initColumns: function() {
     var columns = this.columns;
     if (columns) {
-      columns = columns.map(function(column) {
+      var len = columns.length, idx, column;
+      for (idx=0; idx<len; ++idx) {
+        column = columns[idx];
         if (column.width === 0) column.isFlexible = YES;
-        return BBA.TableColumnView.create(column);
-      });
-      this.columns = columns;
+        columns[idx] = BBA.TableColumnView.create(column);
+      }
     } else {
       this.columns = [];
     }

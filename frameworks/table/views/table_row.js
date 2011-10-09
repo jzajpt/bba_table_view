@@ -119,23 +119,31 @@ BBA.TableRowView = SC.View.extend(
   /** @private */
   _createCellForColumn: function(column, index) {
     var attributes = this._cellAttributesForColumn(column, index);
-    var cache = this._exampleViewsCache;
     var exampleView = column.get('exampleView')
-    if (!cache) cache = this._exampleViewsCache = {};
-    if (cache[exampleView]) exampleView = cache[exampleView];
-    else cache[exampleView] = exampleView = exampleView.extend(BBA.TableCellViewMixin);
     return this.createChildView(exampleView, attributes);
   },
 
   /** @private */
   _cellAttributesForColumn: function(column, index) {
     var layout = this.get('tableView').cellLayoutForColumn(column, index);
+    var columnIsEditable = column.get('isEditable');
+    var contentIsEditable = this.getPath('content.isEditable');
+    var isEditable = columnIsEditable && contentIsEditable;
     return {
       layout: layout,
       column: column,
       content: this.get('content'),
       row: this,
-      value: this._cellValueForColumn(column)
+      value: this._cellValueForColumn(column),
+      classNames: "table-cell-view".w(),
+      textAlign: SC.outlet('column.align'),
+      isEditable: isEditable,
+      inlineEditorDidEndEditing: function(view, value) {
+        sc_super();
+        var row = this.get('row');
+        var column = this.get('column');
+        row._setValueForColumn(column, value);
+      }
     };
   },
 
