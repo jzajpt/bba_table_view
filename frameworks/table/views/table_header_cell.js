@@ -34,7 +34,7 @@ BBA.TableHeaderCellView = SC.View.extend(
   */
   titleView: SC.LabelView.design({
     layout: { top: 0, left: 3, bottom: 0, right: 14 },
-    valueBinding: '.parentView.title'
+    value: SC.outlet('parentView.title')
   }),
 
   /**

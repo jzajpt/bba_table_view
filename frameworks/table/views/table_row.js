@@ -33,6 +33,13 @@ BBA.TableRowView = SC.View.extend(
   */
   tableView: null,
 
+  /**
+    A reference to the table view's columns.
+
+    @type Array
+  */
+  columns: null,
+
   // ..........................................................
   // SUBCLASS METHODS
   //
@@ -41,15 +48,14 @@ BBA.TableRowView = SC.View.extend(
     Setup header cells from table view's columns.
   */
   createChildViews: function() {
-    var childViews = [],
-        columns    = this.getPath('tableView.columns'),
+    var childViews = this.get('childViews'),
+        columns    = this.get('columns'),
         len        = columns.get('length'),
-        idx, column;
+        idx;
     this.beginPropertyChanges();
     for (idx=0; idx<len; ++idx) {
-      childViews.push(this._createCellForColumn(columns[idx], idx));
+      childViews[idx] = this._createCellForColumn(columns[idx], idx);
     }
-    this.set('childViews', childViews);
     this.endPropertyChanges();
     return this;
   },
@@ -73,7 +79,7 @@ BBA.TableRowView = SC.View.extend(
   */
   updateColumnWidths: function() {
     var childViews = this.get('childViews'),
-        columns    = this.getPath('tableView.columns'),
+        columns    = this.get('columns'),
         idx, view;
     for (idx=0; idx<childViews.get('length'); ++idx) {
       view = childViews[idx];
@@ -113,7 +119,12 @@ BBA.TableRowView = SC.View.extend(
   /** @private */
   _createCellForColumn: function(column, index) {
     var attributes = this._cellAttributesForColumn(column, index);
-    return this.createChildView(BBA.TableCellView, attributes);
+    var cache = this._exampleViewsCache;
+    var exampleView = column.get('exampleView')
+    if (!cache) cache = this._exampleViewsCache = {};
+    if (cache[exampleView]) exampleView = cache[exampleView];
+    else cache[exampleView] = exampleView = exampleView.extend(BBA.TableCellViewMixin);
+    return this.createChildView(exampleView, attributes);
   },
 
   /** @private */
@@ -122,6 +133,7 @@ BBA.TableRowView = SC.View.extend(
     return {
       layout: layout,
       column: column,
+      content: this.get('content'),
       row: this,
       value: this._cellValueForColumn(column)
     };

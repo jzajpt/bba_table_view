@@ -110,6 +110,7 @@ BBA.TableView = SC.ListView.extend(
 
   createItemView: function(exampleClass, idx, attrs) {
     attrs.tableView = this;
+    attrs.columns = this.get('columns');
     return exampleClass.create(attrs);
   },
 
