@@ -164,6 +164,7 @@ BBA.TableView = SC.ListView.extend(
       width = this.get('flexibleColumnWidth');
       column.set('width', width);
     }
+    width -= 8; //padding
     return { top: 0, left: cellOffset, bottom: 0, width: width };
   },
 
@@ -232,14 +233,16 @@ BBA.TableView = SC.ListView.extend(
   */
   _initColumns: function() {
     var columns = this.columns;
-    if (columns) {
+    if (columns && !this._columnsInitialized) {
       var len = columns.length, idx, column;
+      columns = this.columns = SC.copy(columns, true);
       for (idx=0; idx<len; ++idx) {
         column = columns[idx];
         if (column.width === 0) column.isFlexible = YES;
         columns[idx] = BBA.TableColumnView.create(column);
       }
-    } else {
+      this._columnsInitialized = true;
+    } else if (!this._columnsInitialized) {
       this.columns = [];
     }
   },

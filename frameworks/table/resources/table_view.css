@@ -16,6 +16,11 @@
     /*--IE9 DOES NOT SUPPORT GRADIENT BACKGROUNDS--*/
   }
 
+  .table-header-cell-view,
+  .table-cell-view.sc-label-view {
+    padding: 0 4px;
+  }
+
   .table-header-cell-view {
     .sc-label-view {
       padding-left: 4px;
@@ -79,7 +84,6 @@
       }
     }
     .table-cell-view.sc-label-view {
-      padding: 0 2px;
       line-height: 24px;
     }
   }
