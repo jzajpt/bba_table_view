@@ -129,12 +129,14 @@ BBA.TableRowView = SC.View.extend(
     var columnIsEditable = column.get('isEditable');
     var contentIsEditable = this.getPath('content.isEditable');
     var isEditable = columnIsEditable && contentIsEditable;
+    var content = this.get('content'),
+        key     = column.get('key');
     return {
       layout: layout,
       column: column,
       content: this.get('content'),
       row: this,
-      value: this._cellValueForColumn(column),
+      valueBinding: SC.Binding.from(key, content),
       classNames: "table-cell-view".w(),
       textAlign: SC.outlet('column.align'),
       isEditable: isEditable,
@@ -145,17 +147,6 @@ BBA.TableRowView = SC.View.extend(
         row._setValueForColumn(column, value);
       }
     };
-  },
-
-  /** @private */
-  _cellValueForColumn: function(column) {
-    var content = this.get('content'),
-        key     = column.get('key'),
-        value;
-    if (content) {
-      value = content.get(key);
-      return value && value.toString();
-    }
   },
 
   /** @private */
