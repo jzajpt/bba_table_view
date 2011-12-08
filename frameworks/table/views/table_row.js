@@ -130,13 +130,14 @@ BBA.TableRowView = SC.View.extend(
     var contentIsEditable = this.getPath('content.isEditable');
     var isEditable = columnIsEditable && contentIsEditable;
     var content = this.get('content'),
-        key     = column.get('key');
+        key     = column.get('key'),
+        valueBindingPath = '.parentView.content.'+key;
     return {
       layout: layout,
       column: column,
       content: this.get('content'),
       row: this,
-      valueBinding: SC.Binding.from(key, content),
+      valueBinding: valueBindingPath,
       classNames: "table-cell-view".w(),
       textAlign: SC.outlet('column.align'),
       isEditable: isEditable,
